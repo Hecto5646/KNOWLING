@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Rima IV · Gustavo Adolfo Bécquer</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="vista">
+  <div id="escena">
+    <img id="fondo" src="img/fondo.jpg" alt="Cartulina negra con los objetos de la Rima IV" draggable="false">
+
+    <!-- Objetos recortados (cada uno es tocable) -->
+    <img id="nube"      class="obj" data-act="nube"    src="img/nube.png"      alt="Nube de algodón" draggable="false" style="left:706.5px;top:3.5px;width:520px;height:345px;z-index:1">
+    <img id="plumaroja" class="obj fija" src="img/plumaroja.png" alt="" draggable="false" style="left:786.5px;top:237.5px;width:189.5px;height:189.5px;z-index:2">
+    <img id="rosas"     class="obj" data-act="rosas"   src="img/rosas.png"     alt="Rosas" draggable="false" style="left:572px;top:600px;width:654px;height:356px;z-index:2">
+    <img id="cuerda"    class="obj" data-act="familia"    src="img/cuerda.png"    alt="Figuras de cuerda" draggable="false" style="left:0px;top:608.5px;width:581px;height:280.5px;z-index:2">
+    <div id="papel"     class="obj" data-act="papel" role="button" aria-label="Abrir el poema" style="z-index:2"></div>
+    <img id="cofre"     class="obj" data-act="cofre"   src="img/cofre.png"     alt="Cofre de cartón con paja" draggable="false" style="left:2.5px;top:229px;width:333.5px;height:351px;z-index:3">
+    <img id="cofre2"    class="obj" data-act="cofre"   src="img/cofre.png"     alt="" draggable="false" style="left:2.5px;top:229px;width:333.5px;height:351px;z-index:3">
+    <img id="conchas"   class="obj" data-act="conchas" src="img/conchas.png"   alt="Conchas" draggable="false" style="left:2px;top:2px;width:301.5px;height:279.5px;z-index:3">
+    <img id="pluma"     class="obj" data-act="pluma"   src="img/pluma.png"     alt="Pluma blanca" draggable="false" style="left:1009.5px;top:373px;width:180.5px;height:336.5px;z-index:5">
+
+    <!-- Luces dentro de la nube -->
+    <div class="luz" style="left:1110px;top:90px"></div>
+    <div class="luz" style="left:1005px;top:215px"></div>
+    <div class="luz" style="left:865px;top:105px"></div>
+    <div class="luz" style="left:785px;top:200px"></div>
+
+    <!-- Interruptor de las luces LED de la nube -->
+    <div id="interruptor" class="obj" data-act="interruptor" role="switch" aria-checked="false" aria-label="Luces LED de la nube" tabindex="0" style="left:604px;top:26px;z-index:6"></div>
+
+    <!-- Animaciones dibujadas (rayos, tinta, abeja, ola, paja, conchas) -->
+    <svg id="fx" viewBox="0 0 1230 960" width="1230" height="960">
+      <defs>
+        <filter id="brillo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+        <clipPath id="recorte"><rect width="1230" height="960"/></clipPath>
+        <linearGradient id="agua" x1="0" x2="1"><stop offset="0" stop-color="#1b6f9a"/><stop offset="1" stop-color="#5fc7d6"/></linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<div id="destello"></div>
+
+<div id="barra">
+  <button id="pantalla" aria-label="Pantalla completa">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <g class="ent"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></g>
+      <g class="sal"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></g>
+    </svg>
+  </button>
+  <button id="mas" aria-label="Acercar">+</button>
+  <button id="menos" aria-label="Alejar">−</button>
+  <button id="reset" aria-label="Ver cartulina entera">⤢</button>
+</div>
+
+<p id="pista">Toca los objetos de la cartulina · Pellizca o usa + / − para hacer zoom</p>
+
+<section id="poema" aria-hidden="true">
+  <article>
+    <button id="cerrar" aria-label="Cerrar poema">×</button>
+    <h2>Rima IV</h2>
+    <p class="autor">Gustavo Adolfo Bécquer</p>
+    <div class="versos" id="versos"></div>
+  </article>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

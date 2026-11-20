@@ -1,0 +1,128 @@
+:root{
+  --negro:#070707;
+  --papel:#f6f0e4;
+  --tinta:#1b1815;
+  --rojo:#b3182a;
+  --letra:Georgia,"Palatino Linotype","Book Antiqua",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100%;background:var(--negro);overflow:hidden;
+  touch-action:none;-webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;font-family:var(--letra);
+}
+
+/* Escena: 960 × 1230 px internos, escalada para llenar la pantalla */
+#vista{position:fixed;inset:0;overflow:hidden;touch-action:none}
+#escena{position:absolute;left:0;top:0;width:1230px;height:960px;transform-origin:0 0;will-change:transform}
+#escena>*{position:absolute}
+#fondo{left:0;top:0;width:1230px;height:960px;pointer-events:none}
+img{-webkit-user-drag:none}
+.obj{cursor:pointer}
+.fija{pointer-events:none}
+#papel{left:432px;top:92px;width:306px;height:532px;border-radius:46% / 50%}
+#cofre{clip-path:inset(0 0 40% 0)}
+#cofre2{clip-path:inset(60% 0 0 0)}
+#fx{left:0;top:0;overflow:visible;pointer-events:none;z-index:9}
+.luz{
+  width:190px;height:190px;margin:-95px 0 0 -95px;border-radius:50%;
+  background:radial-gradient(circle,rgba(215,238,255,.95),rgba(120,180,255,.45) 45%,transparent 70%);
+  mix-blend-mode:screen;opacity:0;pointer-events:none;z-index:4;
+}
+
+/* Interruptor y luces LED de la nube */
+#nube{transition:filter .9s ease}
+#interruptor{
+  width:96px;height:52px;border-radius:26px;box-sizing:border-box;
+  background:#1a1a1c;border:2px solid rgba(255,255,255,.4);
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.7);
+  transition:background .35s,border-color .35s,box-shadow .35s;
+}
+#interruptor::after{
+  content:"";position:absolute;left:5px;top:5px;width:38px;height:38px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff,#bdbdbd 70%);box-shadow:0 2px 5px rgba(0,0,0,.6);
+  transition:transform .35s cubic-bezier(.3,1.4,.5,1);
+}
+#interruptor.on{
+  background:linear-gradient(90deg,#ffb347,#ff8fb7);border-color:#ffe3b0;
+  box-shadow:0 0 18px rgba(255,190,110,.7),inset 0 2px 6px rgba(0,0,0,.25);
+}
+#interruptor.on::after{transform:translateX(44px)}
+#interruptor:focus-visible{outline:3px solid #fff;outline-offset:4px}
+#leds{left:0;top:0;width:0;height:0;pointer-events:none;z-index:4}
+.led{position:absolute;width:0;height:0;opacity:0;transition:opacity .6s ease-out}
+.led.on{opacity:1}
+.led i{
+  position:absolute;left:-36px;top:-36px;width:72px;height:72px;border-radius:50%;
+  background:
+    radial-gradient(circle,#fff 0 3px,var(--c) 4.5px 6.5px,transparent 8px),
+    radial-gradient(circle,var(--h) 0,transparent 68%);
+}
+
+/* Destello de pantalla durante la tormenta */
+#destello{
+  position:fixed;inset:0;pointer-events:none;opacity:0;z-index:6;
+  background:radial-gradient(circle at 78% 22%,rgba(220,238,255,.9),rgba(120,170,255,.35) 55%,transparent 80%);
+}
+
+/* Botones de zoom (táctiles, grandes) */
+#barra{position:fixed;right:2vh;bottom:2vh;display:flex;flex-direction:column;gap:1.4vh;z-index:10}
+#barra button{
+  width:8vh;height:8vh;min-width:56px;min-height:56px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.45);background:rgba(18,18,18,.78);color:#fff;
+  font:400 4.2vh/1 var(--letra);cursor:pointer;
+}
+#barra button:active{background:var(--rojo)}
+#pantalla svg{width:56%;height:56%;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+#pantalla .sal{display:none}
+#pantalla.activa .ent{display:none}
+#pantalla.activa .sal{display:inline}
+#barra button:focus-visible,#cerrar:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+#pista{
+  position:fixed;left:50%;bottom:2.4vh;transform:translateX(-50%);z-index:10;
+  max-width:90vw;padding:1.3vh 3vh;border-radius:5vh;text-align:center;
+  background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.3);
+  color:#f3ece0;font-size:max(15px,2.3vh);transition:opacity .8s;pointer-events:none;
+}
+#pista.oculta{opacity:0}
+
+/* Pop-up del poema */
+#poema{
+  position:fixed;inset:0;z-index:20;display:grid;place-items:center;
+  background:rgba(0,0,0,.8);opacity:0;visibility:hidden;
+  transition:opacity .3s,visibility .3s;touch-action:pan-y;
+}
+#poema.abierto{opacity:1;visibility:visible}
+#poema article{
+  position:relative;width:min(94vw,150vh);max-height:95vh;overflow:auto;
+  padding:3.6vh 6vh 3.8vh;border-radius:7vh;
+  background:var(--papel);color:var(--tinta);
+  box-shadow:0 0 0 .6vh var(--rojo),0 3vh 8vh rgba(0,0,0,.6);
+  transform:scale(.9);transition:transform .38s cubic-bezier(.2,.8,.3,1);
+  -webkit-user-select:text;user-select:text;
+}
+#poema.abierto article{transform:scale(1)}
+#poema h2{font-size:4.6vh;font-weight:700;text-align:center;line-height:1.1}
+#poema .autor{font-size:2.3vh;text-align:center;color:var(--rojo);margin:.6vh 0 2.4vh;font-style:italic}
+.versos{
+  columns:2;column-gap:7vh;column-rule:.25vh solid #cbbfa9;
+  font-size:2.1vh;line-height:1.5;
+}
+.versos p{break-inside:avoid;margin:0 0 1.5vh}
+.versos span{display:block;position:relative;padding-left:2.6em}
+.versos .sg{padding-left:4.4em}
+.versos .n{
+  position:absolute;left:0;top:.2em;width:2.4em;padding-right:.5em;
+  text-align:right;font-style:normal;font-size:.68em;line-height:1.5;
+  color:var(--rojo);font-variant-numeric:tabular-nums;
+}
+#cerrar{
+  position:absolute;top:2vh;right:3vh;width:7vh;height:7vh;min-width:52px;min-height:52px;
+  border:0;border-radius:50%;background:var(--rojo);color:#fff;
+  font:400 4.6vh/1 var(--letra);cursor:pointer;
+}
+
+@media (prefers-reduced-motion:reduce){
+  #poema,#poema article{transition:none}
+}
